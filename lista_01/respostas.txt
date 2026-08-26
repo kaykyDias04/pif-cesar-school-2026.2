@@ -1,0 +1,251 @@
+CESAR SCHOOL — PROGRAMAÇÃO IMPERATIVA E FUNCIONAL (2026.2)
+Lista de Exercícios 01 — Respostas das Questões Teóricas e Escritas
+Questão 01
+
+Código implementado no arquivo questao_01.c.
+
+Questão 02
+
+Código implementado no arquivo questao_02.c.
+
+Questão 03
+
+Código implementado no arquivo questao_03.c.
+
+Questão 04
+
+Foram identificados os seguintes erros no código do estudante:
+
+#include <stdlib.h>; — Não deve haver ponto e vírgula no final de uma diretiva de pré-processador.
+int Main{} — C diferencia letras maiúsculas e minúsculas. A função principal deve ser main. Além disso, os parâmetros da função são colocados entre (), e não entre {}.
+( e ) no corpo da função — O corpo de uma função em C deve ser delimitado por chaves { }.
+printf( Existem %d semanas no ano.,52); — A string de formato precisa estar entre aspas duplas, por exemplo: "Existem %d semanas no ano.\n".
+cout << endl; — Essa é uma sintaxe de C++, não de C. Em C, a quebra de linha pode ser feita com \n.
+
+A versão corrigida está no arquivo questao_04.c.
+
+Questão 05
+
+O código não está correto para compilação e execução imediata seguindo o padrão ANSI C.
+
+Faltam alguns elementos importantes:
+
+#include <stdio.h> — necessário para o uso de printf.
+#include <stdlib.h> — necessário para o uso de system.
+A declaração do tipo de retorno da função principal, como int main(void).
+O comando return 0; para indicar que o programa terminou normalmente.
+Questão 06
+
+Foram encontrados erros de sintaxe e de lógica:
+
+Faltam as inclusões de #include <stdio.h> e #include <stdlib.h>.
+A função main não possui o tipo de retorno int e também não possui return 0;.
+Na linha int a=1; b=2; c=3::
+b e c não foram declaradas corretamente. O correto seria, por exemplo, int a=1, b=2, c=3;.
+A instrução termina com : em vez de ;.
+Na linha do printf:
+Faltam as aspas de fechamento da string de formato.
+Existem três especificadores %d, mas quatro variáveis são passadas (a, b, c e d).
+A variável d não foi declarada.
+Há um erro de digitação em "0s números", onde foi usado o número 0 no lugar da letra O.
+Questão 07
+
+A saída produzida por cada instrução é:
+
+a)
+printf("\n\tBom dia! Shirley.");
+
+
+Pula uma linha, faz uma tabulação e imprime:
+
+	Bom dia! Shirley.
+
+b)
+printf("Você já tomou café? \n");
+
+
+Imprime:
+
+Você já tomou café?
+
+
+seguido de uma quebra de linha.
+
+c)
+printf("\n\nA solução não existe!\nNão insista.");
+
+
+O resultado é:
+
+
+A solução não existe!
+Não insista.
+
+d)
+printf("Duas\tlinhas\tde\tsaída\nou\tuma?");
+
+
+O resultado é:
+
+Duas	linhas	de	saída
+ou	uma?
+
+e)
+printf("%s\n%s\n%s\n", "um", "dois", "três");
+
+
+O resultado é:
+
+um
+dois
+três
+
+Questão 08
+
+O programa utiliza três sequências de escape:
+
+\n — pula para o início da próxima linha.
+\t — faz uma tabulação horizontal.
+\" — imprime uma aspa dupla (").
+
+Assim, a saída começa com uma linha em branco, seguida de uma tabulação e do texto "Primeiro programa" entre aspas.
+
+Depois disso, system("PAUSE") exibe a mensagem de pausa do sistema operacional.
+
+Questão 09
+
+No primeiro printf, os argumentos '\n', '\t' e '\"' são constantes de caractere. Como o %c espera um caractere, cada valor é convertido para o caractere correspondente:
+
+'\n' → quebra de linha;
+'\t' → tabulação;
+'\"' → aspas duplas.
+
+Já no segundo printf:
+
+printf("%c", "\"");
+
+
+foi passada uma string (char *) para %c, que espera um caractere. Portanto, há uma incompatibilidade de tipo.
+
+O correto seria:
+
+printf("%c", '\"');
+
+
+A saída pretendida é:
+
+	"Primeiro programa"
+
+Questão 10
+
+Alternativa b) Verdadeiro.
+
+A linguagem C é case sensitive, ou seja, diferencia letras maiúsculas de minúsculas.
+
+Por isso, peso, Peso e PESO são identificadores diferentes.
+
+Questão 11
+Constante	Classificação	Tipo base em C
+\r	Sequência de escape	char
+2130	Constante inteira decimal	int
+-123	Constante inteira decimal negativa	int
+33.28	Constante de ponto flutuante	double
+0XFA	Constante inteira hexadecimal	int
+0101	Constante inteira octal	int
+2.0e30	Constante de ponto flutuante em notação científica	double
+\xDC	Sequência de escape hexadecimal	char
+'\"'	Constante de caractere	char
+'\\'	Constante de caractere	char
+'F'	Constante de caractere	char
+0	Constante inteira	int
+'\0'	Constante de caractere nulo	char
+"F"	Cadeia de caracteres	char[] / char *
+-4567.89	Constante de ponto flutuante negativa	double
+Questão 12
+Instrução	Status	Justificativa
+a) int a;	Correto	Declaração válida de uma variável inteira.
+b) float b;	Correto	Declaração válida de uma variável de ponto flutuante.
+c) double float c;	Incorreto	Não é permitido combinar os dois tipos básicos dessa forma.
+d) unsigned char d;	Correto	unsigned pode ser usado com char.
+e) unsigned e;	Correto	unsigned sozinho equivale a unsigned int.
+f) long float f;	Incorreto	Não é uma combinação válida no padrão C moderno; deve-se usar double ou long double.
+g) long g;	Correto	long sozinho equivale a long int.
+h) long double h;	Correto	Declaração válida de ponto flutuante com maior precisão.
+Questão 13
+
+Alternativa c).
+
+São arquivos de texto que contêm, entre outras coisas, protótipos de funções, definições de constantes, macros e tipos utilizados pelos programas em C.
+
+Questão 14
+
+Alternativa a).
+
+A diretiva informa ao pré-processador que as definições necessárias devem ser incluídas antes da compilação do código.
+
+Questão 15
+
+Alternativa c).
+
+#include é uma diretiva do pré-processador C, executada antes da compilação propriamente dita.
+
+Questão 16
+
+Alternativa c) — Pré-processador.
+
+É a etapa responsável por processar diretivas como #include e #define antes da compilação do código.
+
+Questão 17
+
+As instruções corretas são a), b) e c).
+
+Apenas a alternativa d) está incorreta, pois uma chamada de função em C precisa utilizar parênteses ().
+
+Isso também mostra que C possui formato livre (free-format). O compilador não depende de espaços em branco adicionais entre identificadores, argumentos e delimitadores, permitindo diferentes formas de organizar o código.
+
+Questão 18
+
+Código implementado no arquivo questao_18.c.
+
+Questão 19
+
+Código implementado no arquivo questao_19.c.
+
+Questão 20
+
+Código implementado no arquivo questao_20.c.
+
+Questão 21
+
+Foram implementadas três versões:
+
+questao_21_v1.c — versão com um printf.
+questao_21_v2.c — versão com dois printfs.
+questao_21_v3.c — versão com moldura gráfica.
+Questão 22
+
+Código implementado no arquivo questao_22.c.
+
+Questão 23
+
+Código implementado no arquivo questao_23.c.
+
+Questão 24
+
+Código implementado no arquivo questao_24.c.
+
+Questão 25
+
+Código implementado no arquivo questao_25.c.
+
+Questão 26
+
+Código implementado no arquivo questao_26.c.
+
+Questão 27
+
+Código implementado no arquivo questao_27.c.
+
+Questão 28
+
+Código implementado no arquivo questao_28.c.
