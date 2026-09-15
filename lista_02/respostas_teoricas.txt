@@ -1,0 +1,223 @@
+CESAR SCHOOL — PROGRAMACAO IMPERATIVA E FUNCIONAL (2026.2)
+Lista de Exercicios 02 — Respostas das Questoes Teoricas e Analiticas
+
+Questao 01
+
+a) O valor exibido no console sera 2.
+
+b) Isso acontece por causa do truncamento. A variavel foi declarada como int, entao quando o valor 2.97 (que e double) e atribuido a ela, a parte decimal (.97) e simplesmente cortada fora. O compilador faz essa conversao automatica de double para int, e a parte fracionaria se perde. Esse fenomeno e chamado de truncamento, ou coercao implicita de tipo.
+
+c) Para evitar ou controlar isso, o programador pode:
+- Usar round() de <math.h> para arredondar: valor_inteiro = (int) round(2.97);
+- Usar ceil() para arredondar pra cima: valor_inteiro = (int) ceil(2.97);
+- Usar floor() para arredondar pra baixo: valor_inteiro = (int) floor(2.97);
+- Declarar a variavel como float ou double para manter a precisao.
+- Usar cast explicito pra deixar claro que o truncamento e intencional: valor_inteiro = (int) 2.97;
+
+Questao 02
+
+a) As funcoes de <conio.h> como getch() e getche() devem ser evitadas porque essa biblioteca nao faz parte do padrao ANSI C. Ela e proprietaria, criada pela Borland, e so existe em compiladores Windows. Em Linux, macOS e servidores Unix ela simplesmente nao existe, entao o codigo nao compila nesses sistemas. Usar bibliotecas nao-padrao vai contra o principio de portabilidade da linguagem C.
+
+b) As funcoes equivalentes e portaveis de <stdio.h> sao:
+- getchar() — le um caractere da entrada padrao.
+- putchar(c) — escreve um caractere na saida padrao.
+- fgetc(fp) — le um caractere de um fluxo especifico.
+- fputc(c, fp) — escreve um caractere em um fluxo especifico.
+- scanf("%c", &ch) — le um caractere formatado.
+
+c) Trecho de codigo que le um caractere ignorando '\n' residual:
+
+#include <stdio.h>
+
+int main(void) {
+    char ch;
+    printf("Digite um caractere: ");
+    scanf(" %c", &ch);
+    printf("Voce digitou: %c\n", ch);
+    return 0;
+}
+
+O espaco antes de %c faz o scanf descartar qualquer whitespace que esteja no buffer, incluindo '\n' de leituras anteriores.
+
+Questao 03
+
+Codigo implementado no arquivo questao_03.c.
+
+As instrucoes necessarias sao:
+
+int numero;
+printf("Digite um numero inteiro: ");
+scanf("%d", &numero);
+printf("Decimal: %d | Hexadecimal: %x | Octal: %o | ASCII: %c\n", numero, numero, numero, numero);
+
+O mesmo valor inteiro e interpretado de formas diferentes pelo printf dependendo do especificador: %d mostra em decimal, %x em hexadecimal, %o em octal e %c mostra o caractere ASCII correspondente.
+
+Questao 04
+
+Valores iniciais: a = 1, b = 2, c = 3, d = 4
+
+a += b + c;
+a = 1 + (2 + 3) = 6
+Resultado: a = 6, b = 2, c = 3, d = 4
+
+b *= c = d + 2;
+Primeiro c = 4 + 2 = 6, depois b = 2 * 6 = 12
+Resultado: a = 6, b = 12, c = 6, d = 4
+
+d %= a + a + a;
+Primeiro a + a + a = 18, depois d = 4 % 18 = 4
+Resultado: a = 6, b = 12, c = 6, d = 4
+
+d -= c -= b -= a;
+Da direita pra esquerda: b = 12 - 6 = 6, c = 6 - 6 = 0, d = 4 - 0 = 4
+Resultado: a = 6, b = 6, c = 0, d = 4
+
+a += b += c += 7;
+Da direita pra esquerda: c = 0 + 7 = 7, b = 6 + 7 = 13, a = 6 + 13 = 19
+Resultado: a = 19, b = 13, c = 7, d = 4
+
+Valores finais: a = 19, b = 13, c = 7, d = 4
+
+Questao 05
+
+Valores iniciais: i = 1, j = 2, k = 3, n = 2, x = 3.3, y = 4.4
+
+a) i < j + 3
+j + 3 = 5, entao 1 < 5 — verdadeiro.
+Resultado: 1
+
+b) 2 * i - 7 <= j - 8
+2 - 7 = -5, 2 - 8 = -6, entao -5 <= -6 — falso.
+Resultado: 0
+
+c) -x + y >= 2.0 * y
+-3.3 + 4.4 = 1.1, 2.0 * 4.4 = 8.8, entao 1.1 >= 8.8 — falso.
+Resultado: 0
+
+d) x == y
+3.3 == 4.4 — falso.
+Resultado: 0
+
+e) !(n - j)
+n - j = 0, !0 = 1 — verdadeiro.
+Resultado: 1
+
+f) !n - j
+!2 = 0, 0 - 2 = -2.
+Resultado: -2
+
+g) i && j && k
+1 && 2 = 1, 1 && 3 = 1 — todos nao-zero.
+Resultado: 1
+
+h) i || j - 3 && k
+j - 3 = -1, -1 && 3 = 1, 1 || 1 = 1.
+Resultado: 1
+
+i) i < j && 2 >= k
+1 < 2 = 1, 2 >= 3 = 0, 1 && 0 = 0 — falso.
+Resultado: 0
+
+j) i == 2 || j == 4 || k == 5
+0 || 0 || 0 = 0 — todos falsos.
+Resultado: 0
+
+Questao 06
+
+a) No trecho A, o operador prefixado ++n incrementa n de 5 para 6 antes de atribuir o valor a x. Entao x tambem recebe 6.
+Saida: "Trecho A: n = 6, x = 6"
+
+No trecho B, o operador pos-fixado m++ primeiro atribui o valor atual de m (5) a y, e so depois incrementa m para 6.
+Saida: "Trecho B: m = 6, y = 5"
+
+Resumindo: ++x incrementa antes de usar, x++ usa antes de incrementar.
+
+b) A instrucao printf("%d\t%d\t%d\n", n, n+1, n++) causa comportamento indefinido porque o padrao C nao define a ordem de avaliacao dos argumentos de uma funcao. Na mesma chamada, n esta sendo lido e modificado sem um ponto de sequencia intermediario, o que viola as regras do padrao. Dependendo do compilador, os resultados podem variar. O correto seria separar o incremento em outra instrucao.
+
+Questao 07
+
+Codigo implementado no arquivo questao_07.c.
+
+Questao 08
+
+Codigo implementado no arquivo questao_08.c.
+
+Questao 09
+
+Codigo implementado no arquivo questao_09.c.
+
+Questao 10
+
+Codigo implementado no arquivo questao_10.c.
+
+Questao 11
+
+Codigo implementado no arquivo questao_11.c.
+
+Questao 12
+
+Codigo implementado no arquivo questao_12.c.
+
+Questao 13
+
+Codigo implementado no arquivo questao_13.c.
+
+Questao 14
+
+Codigo implementado no arquivo questao_14.c.
+
+Questao 15
+
+Codigo implementado no arquivo questao_15.c.
+
+Questao 16
+
+Codigo implementado no arquivo questao_16.c.
+
+Questao 17
+
+Codigo implementado no arquivo questao_17.c.
+
+Questao 18
+
+Codigo implementado no arquivo questao_18.c.
+
+Questao 19
+
+Codigo implementado no arquivo questao_19.c.
+
+Questao 20
+
+Codigo implementado no arquivo questao_20.c.
+
+Questao 21
+
+Codigo implementado no arquivo questao_21.c.
+
+Questao 22
+
+Codigo implementado no arquivo questao_22.c.
+
+Questao 23
+
+Codigo implementado no arquivo questao_23.c.
+
+Questao 24
+
+Codigo implementado no arquivo questao_24.c.
+
+Questao 25
+
+Codigo implementado no arquivo questao_25.c.
+
+Questao 26
+
+Codigo implementado no arquivo questao_26.c.
+
+Questao 27
+
+Codigo implementado no arquivo questao_27.c.
+
+Questao 28
+
+Codigo implementado no arquivo questao_28.c.
