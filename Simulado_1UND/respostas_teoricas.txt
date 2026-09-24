@@ -1,0 +1,165 @@
+CESAR SCHOOL — PROGRAMAÇÃO IMPERATIVA E FUNCIONAL (2026.2)
+Simulado 1ª Unidade — Respostas das Questões Teóricas e Analíticas
+
+Questão 01
+
+Alternativa correta: c)
+
+Explicação:
+A linguagem C é case-sensitive (diferencia letras maiúsculas de minúsculas). Por isso, pares como 'valor' e 'VALOR' são tratados pelo compilador como variáveis totalmente diferentes.
+- A letra (a) está incorreta porque 'numero' e 'Numero' são identificadores distintos e ocupam posições diferentes na memória.
+- A letra (b) está incorreta porque o ponto de entrada da linguagem C precisa ser 'main' com letras minúsculas; 'Main' não é reconhecida como a função principal.
+- A letra (d) está incorreta porque a diferenciação entre maiúsculas e minúsculas é uma regra da própria linguagem C (padrão ANSI/ISO), não dependendo do sistema operacional.
+
+Questão 02
+
+Os erros no código do estudante são:
+1. Ponto e vírgula na diretiva: na linha '#include <stdlib.h>;' há um ponto e vírgula indevido. Diretivas de pré-processador não devem terminar com ponto e vírgula.
+2. Nome da função principal: a função foi declarada como 'int Main()'. Em C, deve ser escrita toda em minúsculo: 'main()'.
+3. String sem aspas no printf: a mensagem no printf não está entre aspas duplas. O correto seria printf("A idade do aluno eh: %d anos..\n", idade);.
+4. Comando de C++: a instrução 'cout << endl;' pertence ao C++ e não existe em C. Em C usamos '\n' para quebra de linha.
+
+Questão 03
+
+Valores iniciais: a = 2, b = 4, c = 5, d = 10
+
+Passo a passo:
+1. a += b + c;
+Primeiro resolve a soma: b + c = 4 + 5 = 9.
+Depois soma em a: a = 2 + 9 = 11.
+Valores atuais: a = 11, b = 4, c = 5, d = 10.
+
+2. b *= c = d - 2;
+Atribuições resolvem da direita para a esquerda:
+c = 10 - 2 = 8
+b = 4 * 8 = 32
+Valores atuais: a = 11, b = 32, c = 8, d = 10.
+
+3. d %= a + 3;
+Primeiro a soma: a + 3 = 11 + 3 = 14.
+Depois o resto: d = 10 % 14 = 10 (o resto da divisão de 10 por 14 é 10).
+Valores atuais: a = 11, b = 32, c = 8, d = 10.
+
+4. a += b += c += 5;
+Da direita para a esquerda:
+c = 8 + 5 = 13
+b = 32 + 13 = 45
+a = 11 + 45 = 56
+
+Valores finais:
+a = 56, b = 45, c = 13, d = 10
+
+Questão 04
+
+Valores: i = 2, j = 3, k = 0, x = 2.5, y = 5.0
+
+a) i < j + 2
+j + 2 = 5. Como 2 < 5 é verdadeiro:
+Resultado: 1
+
+b) 2 * i - 5 <= j - 4
+2 * 2 - 5 = -1 e 3 - 4 = -1. Como -1 <= -1 é verdadeiro:
+Resultado: 1
+
+c) !k && (x + y >= 7.5)
+!0 é 1 (verdadeiro). x + y dá 7.5 (7.5 >= 7.5 é 1). 1 && 1 dá verdadeiro:
+Resultado: 1
+
+d) !(i == j) || (y / x == 2.0)
+2 == 3 é falso (0), com a negação ! vira 1. Como o lado esquerdo do || já é verdadeiro:
+Resultado: 1
+
+e) i == 2 && j == 4 || k == 0
+O operador && tem prioridade sobre o ||:
+(2 == 2 && 3 == 4) resulta em (1 && 0) = 0.
+Depois avalia 0 || (0 == 0) => 0 || 1 = 1.
+Resultado: 1
+
+Questão 05
+
+a)
+- No laço while (pré-testado), o teste é feito antes de executar o bloco. Se a condição começar falsa, o bloco executa no mínimo 0 vezes.
+- No laço do-while (pós-testado), o bloco executa primeiro e a condição só é testada no final. Por isso, ele sempre executa no mínimo 1 vez.
+
+b)
+O laço for é a melhor escolha quando já sabemos previamente quantas repetições vão acontecer (ou os limites exatos do intervalo), como percorrer vetores ou contar de 1 a N. Ele é mais legível porque reúne inicialização, condição e incremento em uma única linha no cabeçalho.
+
+c)
+Não é erro de compilação, pois o ponto e vírgula representa uma instrução vazia (corpo nulo), o que é válido na sintaxe de C.
+Porém, é um erro de lógica: se a condição for verdadeira, o programa entra em loop infinito e trava, já que nenhuma instrução é executada para alterar o valor da condição.
+
+Questão 06
+
+a)
+Porque a variável 'soma' foi declarada dentro do bloco do laço for. Em C, variáveis locais a um bloco só existem dentro dele (escopo de bloco). Ao tentar imprimir 'soma' fora do for, o compilador indica que a variável não existe.
+
+b)
+- continue: quando i é 5, o continue interrompe a iteração atual e pula direto para o próximo incremento (não calcula o quadrado de 5).
+- break: quando i é 8, o break encerra o laço na hora, impedindo que as voltas de 8, 9 e 10 aconteçam.
+Assim, as iterações efetivamente calculadas são i = 1, 2, 3, 4, 6 e 7.
+
+c)
+Código corrigido (arquivo questao_06.c):
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+    int i;
+    int soma = 0;
+
+    for (i = 1; i <= 10; i++) {
+        if (i == 5) continue;
+        if (i == 8) break;
+        soma += i * i;
+    }
+
+    printf("Soma final = %d\n", soma);
+    system("PAUSE");
+    return 0;
+}
+
+Cálculo da soma:
+i = 1: 1
+i = 2: 1 + 4 = 5
+i = 3: 5 + 9 = 14
+i = 4: 14 + 16 = 30
+i = 5: pulado pelo continue
+i = 6: 30 + 36 = 66
+i = 7: 66 + 49 = 115
+i = 8: parado pelo break
+
+Saída:
+Soma final = 115
+
+Questão 08
+
+Código implementado no arquivo questao_08.c.
+
+Questão 09
+
+Código implementado no arquivo questao_09.c.
+
+Questão 10
+
+Código implementado no arquivo questao_10.c.
+
+Questão 11
+
+Código implementado no arquivo questao_11.c.
+
+Questão 12
+
+Código implementado no arquivo questao_12.c.
+
+Questão 13
+
+Código implementado no arquivo questao_13.c.
+
+Questão 14
+
+Código implementado no arquivo questao_14.c.
+
+Questão 15
+
+Código implementado no arquivo questao_15.c.
