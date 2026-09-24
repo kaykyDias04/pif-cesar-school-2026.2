@@ -1,0 +1,255 @@
+CESAR SCHOOL — PROGRAMACAO IMPERATIVA E FUNCIONAL (2026.2)
+Lista de Exercicios 03 — Respostas das Questoes Teoricas e Analiticas
+
+Questao 01
+
+a)
+Diferenca quanto ao numero minimo de execucoes:
+- while: O numero minimo de execucoes do bloco de codigo e 0 (zero). Se a condicao de teste for avaliada como falsa logo no primeiro teste, o bloco subordinado nunca e executado.
+- do-while: O numero minimo de execucoes do bloco de codigo e 1 (uma). O bloco de comandos e executado obrigatoriamente pelo menos uma vez, antes que qualquer teste condicional seja realizado.
+
+Diferenca quanto ao momento em que a condicao e avaliada:
+- while: E uma estrutura pre-testada (ou pre-condicional). A condicao de teste e avaliada ANTES de cada iteracao do corpo do laco.
+- do-while: E uma estrutura pos-testada (ou pos-condicional). A condicao de teste e avaliada apenas AO FINAL de cada iteracao, apos a execucao do bloco de comandos.
+
+b)
+Situacoes mais adequadas e elegantes para cada estrutura:
+- for: E a escolha mais elegante e legivel quando o numero de repeticoes e conhecido previamente (laco determinado ou deterministico), ou quando o laco possui uma variavel de controle com passos bem definidos de inicializacao, condicao de limite e incremento/decremento (como iterar sobre vetores, matrizes ou intervalos numericos de 1 a N). A grande vantagem e concentrar a inicializacao, o teste e a atualizacao em uma unica linha no cabecalho.
+- while: E a escolha ideal quando o numero de repeticoes e indeterminado e depende de uma condicao que pode ou nao ser verdadeira desde o inicio, ou seja, quando e possivel que o laco nem precise executar nenhuma vez. Exemplos classicos incluem leitura de arquivos ate encontrar o fim do arquivo (EOF), processamento de filas/pilhas enquanto nao estiverem vazias, ou aguardar uma condicao externa/evento que ja pode estar satisfeito antes da primeira iteracao.
+- do-while: E a escolha perfeita quando o bloco de comandos precisa obrigatoriamente ser executado ao menos uma vez antes de avaliar a condicao de repeticao. Os dois casos de uso fundamentais sao: menus interativos de opcoes (onde o menu deve ser exibido e a opcao do usuario deve ser lida antes de verificar se o usuario escolheu a opcao de sair) e validacao de dados de entrada (onde o usuario precisa digitar um valor antes de o programa poder verificar se a entrada esta dentro do intervalo valido).
+
+c)
+Analise do trecho 'while (condicao);':
+- O trecho NAO e um erro de compilacao. Trata-se de uma construcao sintaticamente valida na linguagem C. O ponto-e-virgula imediatamente apos o fecha-parenteses e interpretado pelo compilador como uma instrucao nula (corpo vazio).
+- Na quase totalidade das situacoes em programacao de aplicacoes, trata-se de um grave erro de logica.
+- Se condicao for verdadeira durante a execucao, o laco executara repetidamente a instrucao vazia (;). Como nenhuma instrucao dentro do corpo do laco altera o valor das variaveis que compoem condicao, a condicao permanecera indefinidamente verdadeira. Isso resulta em um laco infinito (loop infinito bloqueante), travando a thread/processo em execucao e consumindo 100% da capacidade do nucleo da CPU alocado, sem nunca alcancar as linhas de codigo posteriores.
+
+Questao 02
+
+a)
+O compilador emitira um erro de declaracao ("error: 'soma' undeclared") na instrucao printf final porque a variavel soma foi declarada dentro do bloco de escopo do laco for ({ int soma = 0; ... }). Na linguagem C, variaveis declaradas dentro de um bloco possuem escopo local (escopo de bloco) e so existem e sao visiveis dentro das chaves {} daquele bloco especifico. A instrucao printf esta localizada fora das chaves do for, no escopo da funcao main, onde o identificador soma nao existe na tabela de simbolos do compilador.
+
+b)
+Mesmo que a instrucao printf fosse movida para dentro do laco for, o valor de soma estaria conceitualmente incorreto para o proposito de um acumulador porque a instrucao de declaracao com inicializacao (int soma = 0;) seria executada novamente a cada iteracao do laco. Ou seja, a cada passagem pelo laco, a variavel soma seria recriada e zerada, armazenando apenas o quadrado do numero atual (i * i) em vez de somar e acumular os quadrados de todas as iteracoes anteriores. Ao final de cada volta, ela mostraria apenas 1, depois 4, depois 9, etc., perdendo o historico acumulado.
+
+c)
+Codigo corrigido (disponivel tambem no arquivo questao_02.c):
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+    int i;
+    int soma = 0;
+
+    for (i = 1; i < 10; i++) {
+        soma += i * i;
+    }
+
+    printf("Soma final = %d\n", soma);
+    system("PAUSE");
+    return 0;
+}
+
+Explicacao dos conceitos:
+- Visibilidade / Escopo de Bloco: O escopo define a regiao do texto do programa onde um identificador (variavel) e reconhecido e pode ser referenciado diretamente. Em C, qualquer bloco delimitado por chaves { } cria um novo escopo de bloco (block scope). Variaveis declaradas dentro dele sao visiveis apenas a partir do ponto de sua declaracao ate o fechamento da chave correspondente. Declarando soma dentro do for, sua visibilidade ficava restrita as linhas internas daquele bloco. Para que soma seja visivel tanto dentro do for quanto no printf posterior, ela deve ser declarada no escopo envolvente da funcao main.
+- Tempo de Vida (Lifetime / Duracao de Armazenamento): Refere-se ao intervalo de tempo durante a execucao do programa no qual o espaco de memoria da variavel permanece alocado e valido. Variaveis locais sem o modificador static possuem duracao de armazenamento automatica (automatic storage duration): seu espaco e alocado na pilha de execucao (stack) no momento em que a execucao atinge seu bloco e e desalocado/destruido assim que o fluxo sai do bloco. Ao declarar soma dentro do laco, a variavel era destruida ao final de cada iteracao e recriada na proxima. Declarando-a fora do laco, sua duracao de armazenamento se estende por toda a execucao da funcao main, permitindo reter e acumular dados continuamente entre as sucessivas iteracoes.
+
+Questao 03
+
+a)
+A sequencia exata de valores impressos no console e:
+36	18	9	4	2	1	
+
+(Em formato textual com tabulacoes: 36, 18, 9, 4, 2, 1, cada um seguido por um caractere '\t').
+Passo a passo:
+- a = 36: imprime 36, a /= 2 -> a = 18;
+- a = 18: imprime 18, a /= 2 -> a = 9;
+- a = 9: imprime 9, a /= 2 -> a = 4 (divisao inteira trunca o decimal);
+- a = 4: imprime 4, a /= 2 -> a = 2;
+- a = 2: imprime 2, a /= 2 -> a = 1;
+- a = 1: imprime 1, a /= 2 -> a = 0;
+- a = 0: a condicao a > 0 torna-se falsa e o laco e finalizado.
+
+b)
+Explicacao do Trecho B:
+- Comportamento: O laco for omite a expressao de inicializacao e a expressao de incremento. A expressao de teste contem uma atribuicao combinada com chamada de funcao e comparacao: (ch = getch()) != 'X'. A cada iteracao, getch() le um caractere digitado pelo usuario sem eco automatico. Se o caractere for diferente de 'X', o corpo do laco e executado, imprimindo o caractere resultante de ch + 1. O laco continua executando sucessivamente ate que o caractere digitado seja 'X'.
+- O que faz a operacao 'ch + 1': Na linguagem C, caracteres do tipo char sao tratados internamente como inteiros correspondentes aos seus codigos numericos na tabela ASCII. Ao somar 1 ao valor de ch, obtem-se o codigo do caractere imediatamente seguinte na tabela ASCII. Por exemplo, se o usuario digitar 'A' (ASCII 65), ch + 1 resulta em 'B' (ASCII 66); se digitar '1' (ASCII 49), resulta em '2' (ASCII 50).
+- Necessidade dos parenteses em '(ch = getch())': Em C, a precedencia de operadores define que o operador relacional de desigualdade (!=) possui prioridade estrita mais alta do que o operador de atribuicao (=). Caso os parenteses fossem omitidos, isto e, ch = getch() != 'X', a expressao seria avaliada pelo compilador como ch = (getch() != 'X'). Dessa forma, o resultado booleano da comparacao (1 se verdadeiro ou 0 se falso) seria atribuido a variavel ch, em vez do proprio caractere retornado por getch(). Os parenteses forcam a execucao da atribuicao ch = getch() antes de comparar o valor resultante com 'X'.
+
+c)
+Para interromper a execucao do laco infinito for (;;) de forma programatica sem depender do encerramento externo pelo sistema operacional, podem ser utilizadas as seguintes tecnicas:
+1. Instrucao break: Inserida dentro de uma estrutura condicional (ex: if (condicao_de_parada) break;), que interrompe imediatamente o laco e transfere o fluxo para a instrucao logo apos o for.
+2. Instrucao return: Encerra a funcao onde o laco esta contido (e termina o programa caso esteja na funcao main).
+3. Instrucao goto: Desvia o fluxo de execucao para um rotulo definido fora do laco (ex: goto rotulo_fim;).
+4. Funcoes de finalizacao de processo: Chamada explicita de funcoes da biblioteca padrao como exit(0) ou abort() de <stdlib.h>.
+
+Questao 04
+
+a)
+Acao do comando break:
+Quando o comando break e acionado dentro de um laco for ou while, a execucao da estrutura de repeticao e terminada imediatamente e incondicionalmente. O fluxo de controle salta de forma instantanea para a primeira instrucao localizada fora e imediatamente apos o bloco do laco. Nenhuma instrucao restante daquela iteracao e executada e a condicao de teste do laco nao volta a ser avaliada.
+
+b)
+Acao do comando continue:
+Quando o comando continue e acionado dentro de um laco for, ele interrompe prematuramente apenas a iteracao atual em andamento, ignorando/pulando todas as linhas de codigo restantes do corpo do laco situadas abaixo do continue.
+No laco for, a expressao do cabecalho executada IMEDIATAMENTE apos o acionamento do continue e a terceira expressao: a expressao de incremento/atualizacao (por exemplo, i++ ou passo). Somente apos a execucao do incremento e que a expressao de teste (segunda expressao) e avaliada para verificar se havera uma proxima iteracao.
+
+c)
+Lacos aninhados e break:
+Em uma estrutura de lacos aninhados, a instrucao break interrompe UNICAMENTE o laco mais interno que a contem diretamente. O laco externo continua sua execucao de forma normal a partir do ponto imediatamente seguinte ao fechamento do laco interno.
+
+Questao 05
+
+a)
+O laco executara exatamente 5 iteracoes.
+Detalhamento das iteracoes:
+- Iteracao 1: i = 0, j = 10 (0 < 10 e verdadeiro). Ao final: i passa a 1, j passa a 9.
+- Iteracao 2: i = 1, j = 9  (1 < 9 e verdadeiro). Ao final: i passa a 2, j passa a 8.
+- Iteracao 3: i = 2, j = 8  (2 < 8 e verdadeiro). Ao final: i passa a 3, j passa a 7.
+- Iteracao 4: i = 3, j = 7  (3 < 7 e verdadeiro). Ao final: i passa a 4, j passa a 6.
+- Iteracao 5: i = 4, j = 6  (4 < 6 e verdadeiro). Ao final: i passa a 5, j passa a 5.
+- Teste seguinte: 5 < 5 e falso. O laco e encerrado.
+
+b)
+Saida exata produzida pelo comando printf em cada uma das iteracoes:
+i = 0, j = 10 | soma = 10
+i = 1, j = 9 | soma = 10
+i = 2, j = 8 | soma = 10
+i = 3, j = 7 | soma = 10
+i = 4, j = 6 | soma = 10
+
+c)
+Reescrita da logica utilizando a estrutura while:
+
+int i, j;
+
+i = 0;
+j = 10;
+while (i < j) {
+    printf("i = %d, j = %d | soma = %d\n", i, j, i + j);
+    i++;
+    j--;
+}
+
+Questao 06
+
+a)
+O valor final da variavel x que sera impresso pela instrucao printf e:
+Valor final de x = 6
+
+b)
+Explicacao passo a passo:
+O operador x++ e o operador de pos-incremento. Em cada avaliacao da expressao de teste (x++ < 5):
+1. O valor atual de x e utilizado para a comparacao relacional com 5.
+2. Como efeito colateral, x e incrementado em 1 imediatamente apos a avaliacao do valor da expressao (ao atingir o sequence point).
+3. O corpo do laco e a instrucao nula (;), portanto nao realiza nenhuma operacao extra.
+
+Sequencia detalhada das avaliacoes:
+- Passo 1: x vale 0. Compara 0 < 5 (Verdadeiro). Incrementa x para 1. Executa corpo vazio.
+- Passo 2: x vale 1. Compara 1 < 5 (Verdadeiro). Incrementa x para 2. Executa corpo vazio.
+- Passo 3: x vale 2. Compara 2 < 5 (Verdadeiro). Incrementa x para 3. Executa corpo vazio.
+- Passo 4: x vale 3. Compara 3 < 5 (Verdadeiro). Incrementa x para 4. Executa corpo vazio.
+- Passo 5: x vale 4. Compara 4 < 5 (Verdadeiro). Incrementa x para 5. Executa corpo vazio.
+- Passo 6: x vale 5. Compara 5 < 5 (FALSO). Mesmo a comparacao resultando em falso, a operacao de pos-incremento e obrigatoriamente executada! Logo, x e incrementado de 5 para 6.
+- Como o resultado da condicao foi falso, o laco while termina.
+- A instrucao printf e executada e exibe o valor 6.
+
+c)
+Reescrita do codigo de forma explicita e clara (sem corpo vazio):
+
+int x = 0;
+
+while (x <= 5) {
+    x++;
+}
+
+printf("Valor final de x = %d\n", x);
+
+Questao 07
+
+Codigo implementado no arquivo questao_07.c.
+
+Questao 08
+
+Codigo implementado no arquivo questao_08.c.
+
+Questao 09
+
+Codigo implementado no arquivo questao_09.c.
+
+Questao 10
+
+Codigo implementado no arquivo questao_10.c.
+
+Questao 11
+
+Codigo implementado no arquivo questao_11.c.
+
+Questao 12
+
+Codigo implementado no arquivo questao_12.c.
+
+Questao 13
+
+Codigo implementado no arquivo questao_13.c.
+
+Questao 14
+
+Codigo implementado no arquivo questao_14.c.
+
+Questao 15
+
+Codigo implementado no arquivo questao_15.c.
+
+Questao 16
+
+Codigo implementado no arquivo questao_16.c.
+
+Questao 17
+
+Codigo implementado no arquivo questao_17.c.
+
+Questao 18
+
+Codigo implementado no arquivo questao_18.c.
+
+Questao 19
+
+Codigo implementado no arquivo questao_19.c.
+
+Questao 20
+
+Codigo implementado no arquivo questao_20.c.
+
+Questao 21
+
+Codigo implementado no arquivo questao_21.c.
+
+Questao 22
+
+Codigo implementado no arquivo questao_22.c.
+
+Questao 23
+
+Codigo implementado no arquivo questao_23.c.
+
+Questao 24
+
+Codigo implementado no arquivo questao_24.c.
+
+Questao 25
+
+Codigo implementado no arquivo questao_25.c.
+
+Questao 26
+
+Codigo implementado no arquivo questao_26.c.
+
+Questao 27
+
+Codigo implementado no arquivo questao_27.c.
+
+Questao 28
+
+Codigo implementado no arquivo questao_28.c.
