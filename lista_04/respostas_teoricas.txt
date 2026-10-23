@@ -1,0 +1,238 @@
+CESAR SCHOOL — PROGRAMAÇÃO IMPERATIVA E FUNCIONAL (2026.2)
+Lista de Exercícios 04 — Respostas das Questões Teóricas e Analíticas
+
+Questão 01
+
+a)
+Diferença entre if (x = 0) e if (x == 0):
+- O operador '=' é de atribuição, enquanto '==' é de comparação de igualdade.
+- Em 'if (x = 0)', o valor 0 é atribuído à variável x (x passa a valer 0). Além disso, a expressão avalia para o próprio valor atribuído (0). Como 0 em C é falso, a condição nunca será satisfeita e o bloco do if nunca será executado (será ignorado).
+- Em 'if (x == 0)', o valor de x não é alterado; apenas compara-se se x é igual a 0. Se for, a condição é verdadeira e o bloco associado é executado.
+
+b)
+Interpretação de valores numéricos no if em C:
+- Falso: em C, o valor zero (0 inteiro ou 0.0 real) representa falso.
+- Verdadeiro: qualquer valor numérico diferente de zero (seja positivo ou negativo, inteiro ou fracionário, como 1, -5, 3.14) é avaliado como verdadeiro.
+
+c)
+Análise de 'if (x = -5)':
+- O bloco de código associado SERÁ EXECUTADO.
+- Justificativa: a instrução realiza uma atribuição, guardando o valor -5 na variável x. Pelo padrão ANSI C, o resultado da expressão de atribuição é o próprio valor atribuído (-5). Como -5 é um número diferente de zero, ele é avaliado como verdadeiro, disparando a execução do bloco do if.
+
+Questão 02
+
+a)
+Mensagem impressa no console:
+Será impresso:
+Opção B
+
+Justificativa:
+Embora a indentação faça parecer que o else pertence ao primeiro if (x > 10), na sintaxe de C o else sempre se liga ao if mais próximo desacompanhado de else.
+Portanto, o else pertence ao 'if (y > 10)'. Como x = 15 (15 > 10 é verdadeiro), o código entra no primeiro if. Em seguida, testa y > 10 (5 > 10 é falso), caindo no seu respectivo else e imprimindo "Opção B".
+
+b)
+Regra oficial da Linguagem C (problema do dangling else):
+Sem o uso de chaves, uma cláusula else é sempre associada ao comando if mais próximo que a antecede e que ainda não possua um else associado, dentro do mesmo nível de aninhamento. A indentação é ignorada pelo compilador.
+
+c)
+Código reescrito com chaves (arquivo questao_02.c):
+
+int x = 15, y = 5;
+
+if (x > 10) {
+    if (y > 10) {
+        printf("Opção A\n");
+    }
+} else {
+    printf("Opção B\n");
+}
+
+Com o bloco delimitado por chaves, o else fica explicitamente associado ao 'if (x > 10)', executando a Opção B apenas quando x <= 10.
+
+Questão 03
+
+a)
+Funcionamento da segunda linha e valor de situacao:
+- A linha utiliza o operador ternário: (condição) ? (valor se verdadeiro) : (valor se falso).
+- A expressão avalia se media >= 7.0. Se for verdadeiro, retorna 'A'; se falso, retorna 'R'.
+- Como media = 6.8, a condição (6.8 >= 7.0) é falsa. Portanto, a expressão retorna 'R', que é armazenado na variável situacao.
+
+b)
+Reescrita com estrutura tradicional if-else:
+
+media = (nota1 + nota2) / 2.0;
+
+if (media >= 7.0) {
+    situacao = 'A';
+} else {
+    situacao = 'R';
+}
+
+c)
+Substituição e limitações do operador ternário:
+- Não pode substituir qualquer estrutura if-else.
+- O operador ternário é uma expressão que precisa retornar um valor, enquanto o if-else é uma instrução de controle de fluxo para executar blocos de comandos.
+- Limitações:
+  1. Não comporta blocos com múltiplos comandos de forma legível e estruturada (não permite declarações de variáveis ou laços de repetição).
+  2. Não permite instruções de controle como return, break ou continue dentro de seus operandos.
+
+Questão 04
+
+a)
+Saída exata gerada no terminal:
+Prata
+Ouro
+
+Explicação:
+A variável codigo vale 2, então o switch salta direto para o 'case 2:', imprimindo "Prata". Como não há um comando 'break' ao final do case 2, ocorre o efeito fall-through (queda livre) e o programa continua executando as instruções do 'case 3:', imprimindo "Ouro". No case 3 há um break, encerrando o switch.
+
+b)
+Papel do comando break e nome do fenômeno:
+- Papel do break: interrompe imediatamente a execução da estrutura switch, saltando para a próxima instrução fora do bloco e impedindo a execução dos casos abaixo.
+- Nome do fenômeno: Fall-through (ou efeito cascata).
+
+c)
+Tipos permitidos no switch e uso de float/double:
+- Tipos permitidos: apenas tipos inteiros ou promovíveis a inteiro (int, char, short, long, enum).
+- Uso de float ou double NÃO é permitido.
+- Justificativa: o switch é otimizado pelo compilador por meio de tabelas de saltos (jump tables) baseadas em igualdades exatas de inteiros. Números reais (float/double) possuem imprecisões inerentes de representação binária e arredondamento, tornando comparações exatas de rótulos não confiáveis e impossibilitando essa otimização.
+
+Questão 05
+
+a)
+Saída exata do comando printf:
+a = 0, b = 5, c = 8
+
+Explicação:
+- Na expressão (a != 0 && ++b > 5), o lado esquerdo testa se a != 0. Como a = 0, a condição é falsa (0).
+- No operador lógico &&, se a primeira parte for falsa, o resultado geral já é falso. Ocorre a avaliação de curto-circuito e o lado direito (++b > 5) é IGNORADO (não é executado). Portanto, b permanece 5.
+- Sendo a condição falsa, executa-se o else: c -= 2 (10 - 2 = 8).
+
+b)
+Conceito de avaliação de curto-circuito:
+- Operador E (&&): se o primeiro operando for avaliado como falso (0), a expressão inteira é considerada falsa imediatamente e os operandos seguintes não são avaliados.
+- Operador OU (||): se o primeiro operando for avaliado como verdadeiro (diferente de 0), a expressão inteira é considerada verdadeira imediatamente e os operandos seguintes não são avaliados.
+
+c)
+Valores finais se a condição fosse if (a == 0 || ++b > 5):
+- Valores finais: b = 5 e c = 20.
+- Explicação: como a == 0 é verdadeiro, o operador || encerra a avaliação em curto-circuito. O termo ++b > 5 não é avaliado, então b continua 5. Como a condição do if foi verdadeira, executa-se c += 10, totalizando c = 20.
+
+Questão 06
+
+a)
+Saída para idade = 65:
+Idoso
+Adulto
+Jovem
+
+Explicação:
+Os três comandos if foram escritos de forma independente (sem else-if). Para idade = 65, as três condições são verdadeiras (65 >= 60, 65 >= 18 e 65 >= 12), logo as três mensagens são impressas sequencialmente. O else só estava atrelado ao último if (idade >= 12).
+
+b)
+Diferença fundamental de execução:
+- Sequência de ifs independentes: todas as condições são avaliadas uma a uma, e múltiplos blocos podem ser executados se mais de uma for verdadeira.
+- Cadeia else-if: as opções são mutuamente exclusivas. Assim que a primeira condição verdadeira é encontrada, seu bloco é executado e todo o restante da estrutura é ignorado, garantindo uma única execução.
+
+c)
+Código reescrito de forma elegante com else-if (arquivo questao_06.c):
+
+int idade = 25;
+
+if (idade >= 60) {
+    printf("Idoso\n");
+} else if (idade >= 18) {
+    printf("Adulto\n");
+} else if (idade >= 12) {
+    printf("Jovem\n");
+} else {
+    printf("Criança\n");
+}
+
+Questão 07
+
+Código implementado no arquivo questao_07.c.
+
+Questão 08
+
+Código implementado no arquivo questao_08.c.
+
+Questão 09
+
+Código implementado no arquivo questao_09.c.
+
+Questão 10
+
+Código implementado no arquivo questao_10.c.
+
+Questão 11
+
+Código implementado no arquivo questao_11.c.
+
+Questão 12
+
+Código implementado no arquivo questao_12.c.
+
+Questão 13
+
+Código implementado no arquivo questao_13.c.
+
+Questão 14
+
+Código implementado no arquivo questao_14.c.
+
+Questão 15
+
+Código implementado no arquivo questao_15.c.
+
+Questão 16
+
+Código implementado no arquivo questao_16.c.
+
+Questão 17
+
+Código implementado no arquivo questao_17.c.
+
+Questão 18
+
+Código implementado no arquivo questao_18.c.
+
+Questão 19
+
+Código implementado no arquivo questao_19.c.
+
+Questão 20
+
+Código implementado no arquivo questao_20.c.
+
+Questão 21
+
+Código implementado no arquivo questao_21.c.
+
+Questão 22
+
+Código implementado no arquivo questao_22.c.
+
+Questão 23
+
+Código implementado no arquivo questao_23.c.
+
+Questão 24
+
+Código implementado no arquivo questao_24.c.
+
+Questão 25
+
+Código implementado no arquivo questao_25.c.
+
+Questão 26
+
+Código implementado no arquivo questao_26.c.
+
+Questão 27
+
+Código implementado no arquivo questao_27.c.
+
+Questão 28
+
+Código implementado no arquivo questao_28.c.
