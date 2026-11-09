@@ -1,0 +1,284 @@
+CESAR SCHOOL — PROGRAMAÇÃO IMPERATIVA E FUNCIONAL (2026.2)
+Lista de Exercícios 05 — Respostas das Questões Teóricas e Analíticas
+
+Questão 01
+
+a)
+Identificação das etapas no código fornecido:
+- Protótipo (Declaração):
+  Linha: float celsius(float);
+  Papel: Informa previamente ao compilador a existência da função celsius(), estabelecendo a sua assinatura formal (nome da função, tipo de dado retornado e tipos dos parâmetros de entrada) antes que ela seja efetivamente invocada na main().
+- Chamada (Invocação):
+  Linha: c = celsius(f);
+  Papel: Desvia o fluxo sequencial de controle da main() para a função celsius(), passando como argumento o valor da variável f (100.0) e aguardando o processamento. Ao término da função, o valor produzido pelo return é atribuído à variável c.
+- Definição (Implementação):
+  Linhas:
+  float celsius(float fahr) {
+      return (fahr - 32.0) * 5.0 / 9.0;
+  }
+  Papel: Contém o cabeçalho definitivo e o corpo de instruções executáveis (bloco delimitado por chaves) da função, onde os cálculos matemáticos de conversão são concretamente executados na memória.
+
+b)
+Função do protótipo para o compilador:
+O protótipo permite a realização da checagem estática de tipos (type checking) antes da definição da função. Ele assegura que o compilador verifique se a quantidade de argumentos fornecidos na chamada é exata, se os tipos dos argumentos correspondem aos parâmetros formais e se o valor de retorno é compatível com o contexto em que foi chamado.
+
+Se o protótipo fosse omitido e a função definida após a main():
+- Em dialetos clássicos da Linguagem C (padrão C89/C90), a ausência de declaração prévia gerava uma declaração implícita (implicit declaration). O compilador presumia que qualquer função desconhecida retornava int (extern int celsius()). Quando a definição com retorno float fosse encontrada posteriormente, o compilador apontava erro fatal de tipos conflitantes ("conflicting types for 'celsius'").
+- Em termos de verificação de parâmetros, sem o protótipo o compilador aplicaria as promoções padrão de argumentos (default argument promotions): valores inteiros menores seriam promovidos a int e valores float seriam promovidos para double. Como a função real espera um parâmetro do tipo float, ocorreria incompatibilidade na pilha ou nos registradores de chamada, gerando valores corrompidos ou comportamento indefinido (undefined behavior).
+- Nos padrões modernos de C (C99, C11, C17 e C23), a declaração implícita foi formalmente banida da norma, de modo que a omissão do protótipo resulta em erro imediato de compilação.
+
+c)
+Tipo da função celsius() e justificativa:
+- O tipo da função celsius() é float (formalmente: função que recebe float e retorna float).
+- Justificativa: Em C, uma função é tratada como um operador ou elemento em expressões sintáticas que produz um resultado. Quando uma chamada de função como celsius(f) é avaliada, ela é substituída pelo valor devolvido pela instrução return. Portanto, o que determina o tipo da função perante o compilador e as expressões aritméticas/atribuições é o tipo do valor retornado. Os parâmetros recebidos determinam apenas a interface de entrada de dados (argumentos aceitos), mas não o tipo de dado que a chamada em si expressa.
+
+Questão 02
+
+a)
+Quantidade de valores devolvidos e análise da função calcular():
+- Uma função em C pode devolver apenas UM ÚNICO valor por meio da instrução return.
+- O programador pretendia devolver simultaneamente dois resultados independentes: a soma e a média aritmética dos três números inteiros recebidos.
+- A abordagem não cumpre o objetivo porque a linha "return soma, media;" faz uso do operador vírgula (comma operator). Em C, o operador vírgula avalia o operando da esquerda (soma), descarta seu valor, e em seguida avalia o operando da direita (media), tornando o valor deste último o resultado final de toda a expressão. Dessa forma, a função descarta a soma e retorna exclusivamente a média.
+
+b)
+Efeito do comando return; em funções void e sua obrigatoriedade:
+- Efeito: Provoca a interrupção imediata da execução da função, realizando uma saída antecipada (early exit) e devolvendo instantaneamente o controle para o ponto chamador sem fornecer qualquer valor de retorno. No código apresentado, caso a condição (erro < 0) seja verdadeira, o return impede a exibição da mensagem "Codigo processado: %d".
+- Obrigatoriedade ao final: NÃO é obrigatório. Em funções cujo tipo de retorno é void, quando o fluxo de execução atinge naturalmente a chave de fechamento final '}', o compilador insere implicitamente o retorno ao chamador. O uso de return; só é necessário em pontos intermediários da função para interromper a execução prematuramente mediante uma condição de guarda.
+
+c)
+Reescrita e explicação da necessidade de duas funções (arquivo questao_02.c):
+
+Função que retorna apenas a média:
+float calcular_media(int a, int b, int c) {
+    return (a + b + c) / 3.0f;
+}
+
+Função que retorna apenas a soma:
+int calcular_soma(int a, int b, int c) {
+    return a + b + c;
+}
+
+Explicação:
+Em C, a arquitetura da linguagem e as convenções de chamada (calling conventions da ABI) reservam um único registrador do processador (como EAX/RAX em arquiteturas x86/x64) para receber o valor de retorno de uma função escalar. A sintaxe da instrução return aceita estritamente uma única expressão. Consequentemente, para se obter dois resultados escalares distintos sem utilizar técnicas avançadas como passagem de ponteiros por referência (parâmetros de saída) ou encapsulamento em uma estrutura agregada (struct), torna-se mandatória a criação de duas funções independentes, cada qual com sua respectiva responsabilidade e retorno único.
+
+Questão 03
+
+a)
+Classificação de cada protótipo:
+- void exibe_mensagem(char* msg);
+  Parâmetros de entrada: Possui parâmetro de entrada (um ponteiro para char, representando uma string / cadeia de caracteres).
+  Valor de retorno: NÃO possui valor de retorno (tipo void).
+- int obter_codigo(void);
+  Parâmetros de entrada: NÃO possui parâmetros de entrada (indicado explicitamente pela palavra-chave void na lista de parâmetros).
+  Valor de retorno: Possui valor de retorno (retorna um número inteiro do tipo int).
+- void limpar_tela(void);
+  Parâmetros de entrada: NÃO possui parâmetros de entrada (void).
+  Valor de retorno: NÃO possui valor de retorno (void).
+
+b)
+Diferença prática entre função com retorno e procedimento (função void):
+- Função com retorno: É concebida para realizar um processamento matemático ou lógico e produzir um dado concreto que será utilizado diretamente em expressões, cálculos subsequentes, testes condicionais ou atribuições a variáveis.
+  Exemplo de situação adequada: O cálculo da raiz quadrada de um número (double sqrt(double x)) ou a conversão de temperatura (float celsiusParaFahrenheit(float c)), em que o resultado numérico é essencial para o fluxo do programa.
+- Procedimento (função void): É concebido para executar uma sequência de comandos com foco exclusivo em efeitos colaterais (side effects), tais como operações de entrada e saída (I/O), escrita em disco, limpeza de tela ou exibição de texto, onde não existe um valor matemático a ser devolvido.
+  Exemplo de situação adequada: A impressão de um menu textual interativo de opções na tela (void exibeMenu(void)) ou a limpeza do terminal de comando (void limpar_tela(void)).
+
+c)
+Análise da instrução "x = limpar_tela();":
+- A instrução NÃO é válida e gera um erro de compilação fatal (tipicamente: "error: void value not ignored as it ought to be").
+- Justificativa: O tipo void define a ausência explícita e completa de valor. O operador de atribuição '=' exige que o operando localizado à sua direita seja uma expressão válida que resulte em um valor de tipo concreto compatível com a variável receptora 'x'. Como a função limpar_tela() tem tipo de retorno void, sua chamada não produz nenhum dado ou resultado na memória que possa ser capturado ou armazenado.
+
+Questão 04
+
+a)
+Identificação dos elementos e remoção do caso base:
+- Caso Base: A condição (n == 0), que interrompe a cadeia de chamadas recursivas e retorna o valor 1 ((long)1).
+- Passo Recursivo: A expressão (long)n * fatorial(n - 1), que decompoe o problema calculando o fatorial do antecessor e multiplicando pelo valor corrente de n.
+- Se o caso base fosse removido: A função entraria em uma recursão infinita. Para qualquer valor inicial de n, as chamadas continuariam descendo para valores negativos de forma ininterrupta (fatorial(0) chamaria fatorial(-1), depois fatorial(-2), etc.). A cada chamada sucessiva, um novo registro de ativação (stack frame) seria empilhado na memória da pilha de execução até esgotar totalmente a área de memória disponível, culminando no estouro de pilha (stack overflow) e travamento do programa por falha de segmentação (segmentation fault).
+
+b)
+Rastreamento completo da chamada fatorial(4):
+
+1. Fase de Empilhamento (Winding Phase):
+   - Chamada inicial: fatorial(4)
+     Avalia: (4 == 0) -> falso.
+     Aguarda: 4 * fatorial(3)   [Stack Frame 1 empilhado]
+   - Chamada: fatorial(3)
+     Avalia: (3 == 0) -> falso.
+     Aguarda: 3 * fatorial(2)   [Stack Frame 2 empilhado]
+   - Chamada: fatorial(2)
+     Avalia: (2 == 0) -> falso.
+     Aguarda: 2 * fatorial(1)   [Stack Frame 3 empilhado]
+   - Chamada: fatorial(1)
+     Avalia: (1 == 0) -> falso.
+     Aguarda: 1 * fatorial(0)   [Stack Frame 4 empilhado]
+   - Chamada: fatorial(0)
+     Avalia: (0 == 0) -> verdadeiro (Caso Base atingido).
+     Retorna: 1                 [Stack Frame 5 empilhado no topo]
+
+2. Fase de Desempilhamento (Unwinding Phase):
+   - fatorial(0) devolve 1 e seu stack frame é desempilhado.
+   - fatorial(1) retoma a execução: calcula 1 * 1 = 1, devolve 1 e seu stack frame é desempilhado.
+   - fatorial(2) retoma a execução: calcula 2 * 1 = 2, devolve 2 e seu stack frame é desempilhado.
+   - fatorial(3) retoma a execução: calcula 3 * 2 = 6, devolve 6 e seu stack frame é desempilhado.
+   - fatorial(4) retoma a execução: calcula 4 * 6 = 24, devolve 24 e seu stack frame é desempilhado, entregando o valor final 24 para a função chamadora (main).
+
+c)
+Explicação em termos de pilha de execução e causa da falha:
+A pilha de execução (call stack) é a região de memória gerenciada pelo sistema operacional destinada a armazenar o contexto de execução de cada função chamada. Cada chamada a uma função aloca um novo bloco de memória denominado registro de ativação (stack frame), contendo:
+- O endereço de retorno da instrução do chamador;
+- Os parâmetros formais recebidos (ex.: o valor do argumento n);
+- As variáveis locais e o salvamento de registradores de CPU.
+Na execução de funções recursivas, cada chamada cria um novo stack frame no topo da pilha sem liberar os frames das chamadas anteriores, uma vez que estas continuam ativas aguardando o retorno dos cálculos pendentes.
+A memória da pilha de execução possui tamanho finito (geralmente entre 1MB e 8MB por processo). Se uma função recursiva não possuir caso base (ou se a condição de parada nunca for alcançada), novos frames continuam sendo alocados continuamente até que o ponteiro da pilha (Stack Pointer) ultrapasse os limites da memória autorizada. Esse evento é denominado Stack Overflow (estouro de pilha). Quando ocorre, a MMU (Memory Management Unit) detecta o acesso ilegal fora dos limites da página de memória e o sistema operacional aborta imediatamente o processo por violação de acesso (Segmentation Fault).
+
+Questão 05
+
+a)
+Saídas e análise do comportamento de SQR e DOBRO:
+- Saída do primeiro printf: 25
+- Saída do segundo printf: 8
+
+Explicação técnica:
+O pré-processador da linguagem C não possui conhecimento sintático de tipos ou precedência de operadores; ele atua realizando estritamente a substituição textual de macros antes da etapa de compilação.
+- Para SQR(2+3):
+  A macro é definida como ((x)*(x)). O texto "2+3" é substituído no lugar de 'x', gerando:
+  ((2+3)*(2+3))
+  Como há parênteses individuais protegendo cada ocorrência do argumento x, a adição 2+3 é avaliada primeiro em ambos os lados, resultando em (5) * (5) = 25.
+- Para DOBRO(2+3):
+  A macro é definida como x*2, sem parênteses de proteção. A substituição textual direta de x por "2+3" gera a expressão:
+  2+3*2
+  De acordo com as regras formais de precedência de operadores da Linguagem C, o operador de multiplicação '*' possui maior precedência que o operador de adição '+'. Portanto, o compilador avalia primeiramente 3 * 2 = 6, e em seguida 2 + 6 = 8, produzindo um resultado completamente incorreto em relação à intenção original (que seria o dobro de 5, ou seja, 10).
+
+b)
+Ausência de ponto e vírgula no #define e convenção de letras maiúsculas:
+- Ausência de ponto e vírgula:
+  A diretiva #define é uma instrução para o pré-processador e não um comando da linguagem C. Caso colocássemos um ponto e vírgula ao final da diretiva (ex.: #define PI 3.14;), o caractere ';' passaria a fazer parte integral do texto de substituição. Ao escrever uma linha como "area = PI * r * r;", ela seria expandida para:
+  area = 3.14; * r * r;
+  Isso introduziria um ponto e vírgula espúrio no meio da expressão aritmética, fragmentando a instrução e gerando um erro de sintaxe durante a compilação.
+- Convenção de identificadores em maiúsculas:
+  Utiliza-se letras maiúsculas (UPPERCASE) para macros e constantes simbólicas por convenção universal de boas práticas (padrão de codificação C). Isso permite ao programador distinguir visualmente e instantaneamente quais elementos do código são macros expandidas textualmente pelo pré-processador, alertando sobre os riscos de reavaliação de expressões (efeitos colaterais múltiplos como em SQR(i++)) e diferenciando-os de variáveis locais e funções ordinárias.
+
+c)
+Incorreção em #define PRN (n) printf("%d", n) e diferença em relação a funções:
+- Motivo da incorreção:
+  Em macros parametrizadas com argumentos, é estritamente proibido haver espaço em branco entre o nome da macro (PRN) e o parêntese de abertura '('.
+  Ao inserir um espaço ("PRN (n)"), o pré-processador interpreta PRN como uma macro simples sem argumentos, cujo texto de substituição literal é "(n) printf("%d", n)". Quando o desenvolvedor tentar invocar a macro no código com "PRN(valor);", ela será expandida para "(n) printf("%d", n) (valor);", o que quebra totalmente a sintaxe e resulta em erro fatal de compilação.
+- Forma correta:
+  #define PRN(n) printf("%d", (n))
+- Diferenças entre macro com argumentos e função comum:
+  1. Expansão vs. Chamada: A macro gera expansão textual diretamente no local de uso antes da compilação, eliminando o overhead de chamada em tempo de execução, mas aumentando o tamanho do binário final caso seja utilizada muitas vezes. Já a função comum é compilada uma única vez em um endereço fixo de memória e invocada via instruções de salto (call/ret) e manipulação de pilha.
+  2. Checagem de tipos: Funções comuns realizam verificação rígida e conversão segura de tipos de dados nos parâmetros e no retorno. Macros não possuem tipagem, operando cegamente sobre qualquer texto que seja válido após a expansão.
+  3. Efeitos colaterais: Se passarmos um argumento contendo incremento ou decremento (ex.: PRN(x++)), a macro pode avaliar a expressão múltiplas vezes caso o parâmetro apareça repetido em sua definição, enquanto uma função comum avalia o argumento exatamente uma única vez antes de transmiti-lo.
+
+Questão 06
+
+a)
+Diferença entre #include <stdio.h> e #include "areas.h":
+- #include <stdio.h> (delimitado por colchetes angulares '<' e '>'):
+  Instrui o pré-processador a buscar o arquivo de cabeçalho diretamente nos diretórios do sistema e da biblioteca padrão configurados no ambiente do compilador (ex.: pastas de include da toolchain padrão). É utilizado exclusivamente para bibliotecas padrão ou instaladas globalmente no sistema operacional.
+- #include "areas.h" (delimitado por aspas duplas '"'):
+  Instrui o pré-processador a buscar o arquivo prioritariamente no diretório de trabalho atual (mesma pasta onde se encontra o arquivo de código fonte que o incluiu). Caso o arquivo não seja encontrado localmente, o pré-processador recorre em seguida aos diretórios padrão do sistema. É a sintaxe utilizada para cabeçalhos personalizados criados pelo próprio desenvolvedor dentro do projeto.
+
+b)
+Efeito de #undef SOMA e incorreção da forma #undef SOMA(x,y):
+- Efeito de #undef SOMA:
+  Cancela formalmente a definição anterior da macro SOMA. A partir dessa diretiva, o identificador SOMA deixa de existir para a tabela de símbolos do pré-processador. Qualquer tentativa de uso posterior de SOMA resultará em erro de identificador indefinido (ou permitirá que ele seja redefinido com nova lógica sem causar alertas de redefinição).
+- Incorreção de #undef SOMA(x,y):
+  A sintaxe canônica da diretiva #undef aceita estritamente o identificador puro da macro (#undef NOME). Ela não admite parênteses ou lista de parâmetros formais, independentemente de a macro ter sido originalmente criada com ou sem argumentos. O uso de parâmetros gera erro de sintaxe do pré-processador ("error: extra tokens at end of #undef directive").
+
+c)
+Mensagem impressa e momento da decisão:
+- Se DEBUG não foi definido, a mensagem impressa no console será:
+  Modo normal
+- Momento em que a decisão é tomada:
+  A decisão é tomada integralmente na etapa de PRÉ-PROCESSAMENTO (antes da compilação para código de máquina).
+- Por que as diretivas não aparecem no executável final:
+  As diretivas condicionais (#ifdef, #else, #endif) são comandos exclusivos destinados ao pré-processador. O pré-processador avalia a existência da constante DEBUG e filtra o texto do código fonte: o trecho correspondente ao ramo falso (o printf("Modo de depuracao\n");) e as próprias diretivas com '#' são completamente eliminados do fluxo de texto. O compilador C subsequente recebe apenas as instruções correspondentes ao ramo ativo (printf("Modo normal\n");). No arquivo executável final gerado (código binário de máquina), residem unicamente as instruções compiladas do trecho selecionado, sem nenhum resquício das diretivas de controle de compilação.
+
+Questão 07
+
+Código implementado no arquivo questao_07.c.
+
+Questão 08
+
+Código implementado no arquivo questao_08.c.
+
+Questão 09
+
+Código implementado no arquivo questao_09.c.
+
+Questão 10
+
+Código implementado no arquivo questao_10.c.
+
+Questão 11
+
+Código implementado no arquivo questao_11.c.
+
+Questão 12
+
+Código implementado no arquivo questao_12.c.
+
+Questão 13
+
+Código implementado no arquivo questao_13.c.
+
+Questão 14
+
+Código implementado no arquivo questao_14.c.
+
+Questão 15
+
+Código implementado no arquivo questao_15.c.
+
+Questão 16
+
+Código implementado no arquivo questao_16.c.
+
+Questão 17
+
+Código implementado no arquivo questao_17.c.
+
+Questão 18
+
+Código implementado no arquivo questao_18.c.
+
+Questão 19
+
+Código implementado no arquivo questao_19.c.
+
+Questão 20
+
+Código implementado no arquivo questao_20.c.
+
+Questão 21
+
+Código implementado no arquivo questao_21.c.
+
+Questão 22
+
+Código implementado no arquivo questao_22.c (e cabeçalho areas.h).
+
+Questão 23
+
+Código implementado no arquivo questao_23.c.
+
+Questão 24
+
+Código implementado no arquivo questao_24.c.
+
+Questão 25
+
+Código implementado no arquivo questao_25.c.
+
+Questão 26
+
+Código implementado no arquivo questao_26.c.
+
+Questão 27
+
+Código implementado no arquivo questao_27.c.
+
+Questão 28
+
+Código implementado no arquivo questao_28.c.
