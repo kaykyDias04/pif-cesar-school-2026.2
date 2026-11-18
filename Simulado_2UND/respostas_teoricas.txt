@@ -1,0 +1,138 @@
+CESAR SCHOOL — PROGRAMAÇÃO IMPERATIVA E FUNCIONAL (2026.2)
+Simulado 2ª Unidade — Respostas das Questões Teóricas e Analíticas
+
+Questão 01
+
+Alternativa correta: b)
+
+Explicação:
+Sem chaves, o else fica associado ao if mais próximo que ainda não tem else, ou seja, ao teste b > 5. Como a vale 8, o primeiro if é verdadeiro. Já b vale 3, então o teste interno é falso e imprime Y. O printf de Z está fora dos dois ifs e executa normalmente.
+
+Saída:
+Y
+Z
+
+Questão 02
+
+Alternativa correta: c)
+
+Explicação:
+Como op vale 2, a execução começa no case 2: t passa de 0 para 2. Não há break nesse caso, então o programa continua no case 3, soma mais 3 e só então sai do switch. O valor impresso é 5. O case 1 não executa, porque fica antes do ponto de entrada.
+
+Questão 03
+
+Código implementado no arquivo questao_03.c.
+A quarta-feira corresponde ao dia 4. O ingresso custa R$ 20,00 se o cliente tem menos de 12 anos, mais de 60 ou se é quarta-feira; atender a mais de uma condição não gera outro desconto.
+
+Questão 04
+
+Código implementado no arquivo questao_04.c.
+Primeiro são verificadas a idade e a renda. Só quem atende a essas condições passa pela comparação entre o valor solicitado e o limite de dez vezes a renda.
+
+Questão 05
+
+Alternativa correta: d)
+
+Explicação:
+A função recebe cópias dos valores de x e y. A troca altera apenas as variáveis locais a e b; as variáveis da main continuam valendo 3 e 7.
+
+Saída:
+3 7
+
+Questão 06
+
+Alternativa correta: a)
+
+Explicação:
+A função soma n com o resultado da chamada anterior até chegar ao caso base, que retorna 1. Não é um fatorial, porque a operação usada é soma, não multiplicação.
+f(1) = 1
+f(2) = 2 + 1 = 3
+f(3) = 3 + 3 = 6
+f(4) = 4 + 6 = 10
+
+Questão 07
+
+Código implementado no arquivo questao_07.c.
+A função ehPrimo devolve 0 para valores menores que 2. Por isso, 1 não aparece na lista.
+
+Questão 08
+
+Código implementado no arquivo questao_08.c.
+As duas funções são recursivas. A soma dos dígitos também aceita números negativos, sem contar o sinal. O expoente precisa ser não negativo; quando é zero, a potência retorna 1, inclusive para base zero, pela regra do caso base. Resultados que não cabem em long são rejeitados antes da multiplicação.
+
+Questão 09
+
+Código implementado no arquivo questao_09.c.
+As faixas são contínuas: abaixo de 18,5; de 18,5 até antes de 25; de 25 até antes de 30; e a partir de 30. Assim, valores como 24,95 também recebem uma classificação, sem deixar intervalos entre as faixas.
+
+Questão 10
+
+Alternativa correta: c)
+
+Explicação:
+Os índices começam em zero. Assim, m[0][2] vale 3, m[1][1] vale 5 e m[2][0] vale 7. A soma é 3 + 5 + 7 = 15.
+
+Questão 11
+
+Alternativa esperada pelo enunciado: b)
+
+Explicação:
+strcat acrescenta "2026" ao final de "PROVA", formando "PROVA2026". São 5 + 4 = 9 caracteres. O terminador nulo ocupa espaço no vetor, mas não entra na contagem de strlen.
+
+Saída pretendida:
+9 PROVA2026
+
+Observação sobre o código:
+strlen retorna size_t, então o formato correto é %zu, e não %d. Como está escrito no enunciado, o printf tem incompatibilidade de tipos e comportamento indefinido; a linguagem não garante aquela saída. Com printf("%zu %s\n", strlen(s), s), a alternativa b está correta.
+
+Questão 12
+
+Código implementado no arquivo questao_12.c.
+São lidas 10 temperaturas, conforme TAM. A saída informa tanto o índice do vetor, de 0 a 9, quanto o número do dia, de 1 a 10. Se a maior temperatura se repetir, aparece a primeira ocorrência.
+
+Questão 13
+
+Código implementado no arquivo questao_13.c.
+Cada linha representa uma loja e cada coluna representa um produto. Em caso de empate nas vendas totais, o programa mostra o primeiro produto entre os empatados.
+
+Questão 14
+
+Código implementado no arquivo questao_14.c.
+Foi usado fgets no lugar de gets, porque gets não limita a entrada e foi removida do padrão C a partir do C11. A troca mantém a leitura de uma linha, incluindo espaços, sem ultrapassar o vetor. São deslocadas as letras de A a Z, sem acentos; os demais caracteres são mantidos. O deslocamento é reduzido ao intervalo de 0 a 25 e também aceita valores negativos.
+
+Questão 15
+
+Código implementado no arquivo questao_15.c.
+A busca usa strcmp e diferencia maiúsculas de minúsculas. Se um nome estiver repetido, é informada a primeira posição em que aparece, de 1 a 5.
+
+Questão 16
+
+Alternativa correta: c)
+
+Explicação:
+A atribuição b = a copia os campos da estrutura. Depois disso, mudar b.x para 9 não altera a.x, que continua valendo 1. As duas estruturas guardam seus próprios valores.
+
+Saída:
+1 9
+
+Questão 17
+
+Alternativa correta: d)
+
+Explicação:
+Os membros de uma union compartilham a mesma região de memória; seus tamanhos não são somados. Nesse caso, tanto c[8] quanto double ocupam 8 bytes, enquanto int ocupa 4. Com o alinhamento usual desse compilador, sizeof(Dado) é 8 bytes, espaço suficiente para qualquer um dos membros.
+
+Questão 18
+
+Código implementado no arquivo questao_18.c.
+A média é calculada com os quatro salários originais. O reajuste de 10% é exibido apenas para quem recebe estritamente abaixo dessa média. Se houver empate no maior salário, aparece o primeiro funcionário cadastrado entre os empatados.
+
+Questão 19
+
+Código implementado no arquivo questao_19.c.
+O switch usa o nível armazenado na estrutura. Níveis diferentes de VISITANTE, USUARIO e ADMIN passam pelo default e não recebem permissões.
+
+Questão 20
+
+Código implementado no arquivo questao_20.c.
+A duração é a diferença entre os horários convertidos para minutos. Como os dois horários são do mesmo dia, o programa rejeita um fim anterior ao início; não considera virada de dia. Horários iguais produzem duração zero.
